@@ -1,38 +1,52 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  flex-direction: column;
+  min-height: 80vh;
 }
 
-.App-link {
-  color: #61dafb;
+.Calculator-Visor {
+  grid-area: VISOR;
+  background-color: black;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Calculator-Container {
+  display: grid;
+  grid-template-areas: 
+  "VISOR VISOR VISOR VISOR"
+  "AC AC DIV x"
+  "SETE OITO NOVE MENOS"
+  "QUATRO CINCO SEIS MAIS"
+  "UM DOIS TRES IGUAL"
+  "ZERO ZERO PONTO IGUAL";
+  
+  grid-template-columns: repeat(4,1fr);
+  grid-template-rows: repeat(6,1fr);
+  padding: 0.5em;
+  background-color: #202e3b;
+
+  height: 40vh;
+  width: 30vh;
+
+}
+
+.Calculator-Button {
+  background-color: #444850;
+  border: 2px solid #202e3b;
+  cursor: pointer;
+  color: #fff;
+}
+
+.AC {
+  background-color: #b93e30;
+}
+
+.DIV, .x, .MENOS, .MAIS, .IGUAL {
+  background-color: #717885;
+}
+
+.Calculator-Visor {
+  text-align: end;
+  color: #fff;
 }
