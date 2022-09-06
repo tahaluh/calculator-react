@@ -36,8 +36,12 @@
   border: 2px solid #202e3b;
   cursor: pointer;
   color: #fff;
+  
 }
 
+.Calculator-Button:hover {
+  filter: brightness(0.8);
+}
 .AC {
   background-color: #b93e30;
 }

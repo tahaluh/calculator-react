@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import CalculatorVisor from "./components/CalculatorVisor/calculatorVisor";
+import CalculatorButton from "./components/CalculatorButton/calculatorButton";
 
 // eval()
 // handle antes do set
@@ -8,69 +10,88 @@ import "./App.css";
 function App() {
   const [expressao, setExpressao] = useState("");
   const [expressaoLimpa, setExpressaoLimpa] = useState("");
-
-  const re = /(^[+=/]|([-+=/x]{2}$))/;
+  const [state, setState] = useState("");
 
   useEffect(() => {
-    if (re.test(expressao)) {
-      setExpressao(
-        expressao.substr(0, expressao.length - 2) + expressao.substr(-1)
-      );
-    }
-
-    switch (expressao.substr(-1)) {
+    console.log(expressaoLimpa);
+    switch (expressao[expressao.length - 1]) {
       case "C":
         setExpressao("");
+        setState("");
         break;
       case "=":
-        CalculatorResult();
+        if (!/([/*+-]$)/.test(expressaoLimpa)) {
+          CalculatorResult(expressaoLimpa);
+        }
+        break;
+      case "/":
+      case "*":
+      case "-":
+      case "+":
+        if (state !== "") {
+          let tempExpressao = state + expressao[expressao.length - 1];
+          setState("");
+          console.log("temp: " + tempExpressao);
+          setExpressao(tempExpressao);
+        }
+        setExpressaoLimpa(expressao);
         break;
       default:
+        if (state !== "") {
+          setExpressao(expressao[expressao.length - 1]);
+          setState("");
+        }
         setExpressaoLimpa(expressao);
         break;
     }
   }, [expressao]);
 
-  const CalculatorResult = () => {
-    let arrayExp = expressaoLimpa.replaceAll(/([-+=/x])/g, " $1 ").split(" "); // ['1325', '+', '4654'];
-    let rgxDivMult = /([/x])/;
+  const CalculatorResult = (termo) => {
+    let arrayExp = termo
+      .replaceAll("+", " ")
+      .replaceAll(/([/*]|-[0-9]+)/g, " $1 ")
+      .replaceAll("  ", " ")
+      .split(" "); // separa os termos em items da array
 
-    do {
-      var match = rgxDivMult.exec(arrayExp);
-      if (match) {
-        arrayExp.splice(match.index-1, match.index) // remove os números
-        arrayExp.splice(match.index+1, match.index+2)
-      } 
-    } while (match);
-  };
+    while (arrayExp.indexOf("") !== -1) {
+      // remove todos os items vazios da array
+      arrayExp.splice(arrayExp.indexOf(""), 1);
+    }
 
-  const CalculatorVisor = (props) => {
-    return (
-      <div className="Calculator-Visor">
-        <div className="Calculator-Visor-Exp">{props.expressao}</div>
-        <div className="Calculator-Visor-Dgt">{props.expressao.substr(-1)}</div>
-      </div>
-    );
-  };
+    let hasPlusOrDiv =
+      arrayExp.indexOf("*") !== -1 || arrayExp.indexOf("/") !== -1;
 
-  const CalculatorButton = (props) => {
-    return (
-      <button
-        className={"Calculator-Button " + dicionario[props.value]}
-        style={{ gridArea: dicionario[props.value] }}
-        onClick={() => {
-          props.setExpressao((preValue) => preValue + props.value);
-        }}
-      >
-        {props.value}
-      </button>
-    );
+    while (hasPlusOrDiv) {
+      let tempIndex =
+        arrayExp.indexOf("*") !== -1
+          ? arrayExp.indexOf("*")
+          : arrayExp.indexOf("/");
+
+      arrayExp[tempIndex] =
+        arrayExp.indexOf("*") !== -1
+          ? parseFloat(arrayExp[tempIndex - 1]) *
+            parseFloat(arrayExp[tempIndex + 1])
+          : parseFloat(arrayExp[tempIndex - 1]) /
+            parseFloat(arrayExp[tempIndex + 1]);
+
+      arrayExp.splice(tempIndex - 1, 1);
+      arrayExp.splice(tempIndex, 1);
+
+      hasPlusOrDiv =
+        arrayExp.indexOf("*") !== -1 || arrayExp.indexOf("/") !== -1;
+    }
+    while (arrayExp.length !== 1) {
+      arrayExp[0] = parseFloat(arrayExp[0]) + parseFloat(arrayExp[1]);
+      arrayExp.splice(1, 1);
+    }
+    setExpressaoLimpa(expressao + arrayExp[0]);
+    setState(arrayExp[0]);
   };
 
   const dicionario = {
     AC: "AC",
     "/": "DIV",
-    '*': "x",
+    "*": "x",
     7: "SETE",
     8: "OITO",
     9: "NOVE",
@@ -90,7 +111,10 @@ function App() {
   return (
     <div className="App">
       <div className="Calculator-Container">
-        <CalculatorVisor expressao={expressaoLimpa}></CalculatorVisor>
+        <CalculatorVisor
+          expressao={expressaoLimpa}
+          state={state}
+        ></CalculatorVisor>
         {[
           "AC",
           "/",
@@ -115,6 +139,7 @@ function App() {
               key={value}
               dicionario={dicionario}
               value={value}
+              expressao={expressao}
               setExpressao={setExpressao}
             ></CalculatorButton>
           );
