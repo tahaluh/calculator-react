@@ -1,0 +1,24 @@
+.Calculator-Button {
+  background-color: var(--buttonBackgroundColor);
+  border: 2px solid var(--buttonBorderColor);
+  cursor: pointer;
+  color: #fff;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.Calculator-Button:hover {
+  filter: brightness(0.8);
+}
+.AC {
+  background-color: var(--acBackgroundColor);
+}
+
+.DIV,
+.x,
+.MENOS,
+.MAIS,
+.IGUAL {
+  background-color: var(--buttonBackgroundColorSecundary);
+}

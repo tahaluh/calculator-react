@@ -13,7 +13,6 @@ function App() {
   const [state, setState] = useState("");
 
   useEffect(() => {
-    console.log(expressaoLimpa);
     switch (expressao[expressao.length - 1]) {
       case "C":
         setExpressao("");
@@ -31,7 +30,6 @@ function App() {
         if (state !== "") {
           let tempExpressao = state + expressao[expressao.length - 1];
           setState("");
-          console.log("temp: " + tempExpressao);
           setExpressao(tempExpressao);
         }
         setExpressaoLimpa(expressao);

@@ -1,7 +1,7 @@
 import "./calculatorButton.css";
 
 export default function CalculatorButton(props) {
-  const re = /(^[+=/*]|([+=/*]{2}|([-+][+=/*-]])$))/;
+  const re = /(^[+=/*]|([+=/*]{2}|([-+=][+=/*-])$))/;
   const re2= /([+=/*-]{3})/ 
   const handleClick = () => {
     if (re.test(props.expressao + props.value)) {

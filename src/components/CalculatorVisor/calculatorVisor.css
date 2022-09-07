@@ -1,0 +1,22 @@
+@font-face {
+  font-family: Digital;
+  src: url(../../fonts/DS-DIGI.TTF);
+}
+
+.Calculator-Visor {
+  font-family: Digital;
+  grid-area: VISOR;
+  background-color: black;
+  text-align: end;
+  color: #fff;
+}
+
+.Calculator-Visor-Exp {
+  color: var(--visorPrimary);
+  font-size: 1.4em;
+}
+
+.Calculator-Visor-Dgt {
+  color: var(--visorSecundary);
+  font-size: 2.1em;
+}

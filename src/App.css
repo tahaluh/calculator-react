@@ -6,11 +6,6 @@
   min-height: 80vh;
 }
 
-.Calculator-Visor {
-  grid-area: VISOR;
-  background-color: black;
-}
-
 .Calculator-Container {
   display: grid;
   grid-template-areas: 
@@ -29,28 +24,4 @@
   height: 40vh;
   width: 30vh;
 
-}
-
-.Calculator-Button {
-  background-color: #444850;
-  border: 2px solid #202e3b;
-  cursor: pointer;
-  color: #fff;
-  
-}
-
-.Calculator-Button:hover {
-  filter: brightness(0.8);
-}
-.AC {
-  background-color: #b93e30;
-}
-
-.DIV, .x, .MENOS, .MAIS, .IGUAL {
-  background-color: #717885;
-}
-
-.Calculator-Visor {
-  text-align: end;
-  color: #fff;
 }
